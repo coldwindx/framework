@@ -6,27 +6,27 @@
 #include "log_util.h"
 #include "logger.h"
 
+namespace logx {
+	class LogWriter {
+	public:
+		LogWriter(Logger::sptr logger, LogEvent::sptr event) : _logger(logger), _event(event) {}
+		~LogWriter() {
+			_logger->log(_event->level, _event);
+		}
 
-class LogWriter {
-public:
-	LogWriter(Logger::sptr logger, LogEvent::sptr event) : _logger(logger), _event(event) {}
-	~LogWriter() {
-		_logger->log(_event->level, _event);
-	}
-
-	stringstream& stream() { return _event->ss; }
-	stringstream& format(const char * fmt, ...) {
-		va_list al;
-		va_start(al, fmt);
-		char buf[1024];
-		int len = vsnprintf(buf, 1024, fmt, al);
-		if (len != -1) _event->ss << string(buf, len);
-		va_end(al);
-	}
-private:
-	Logger::sptr _logger;
-	LogEvent::sptr _event;
-};
+		stringstream& stream() { return _event->ss; }
+		stringstream& format(const char * fmt, ...) {
+			va_list al;
+			va_start(al, fmt);
+			char buf[1024];
+			int len = vsnprintf(buf, 1024, fmt, al);
+			if (len != -1) _event->ss << string(buf, len);
+			va_end(al);
+		}
+	private:
+		Logger::sptr _logger;
+		LogEvent::sptr _event;
+	};
 
 
 #define _LOG_LEVEL(logger, level) \
@@ -46,3 +46,5 @@ private:
 #define _LOG_FMT_WARN(logger, fmt, ...) _LOG_FMT_LEVEL(logger, LogLevel::WARN, fmt, __VA_ARGS__)
 #define _LOG_FMT_ERROR(logger, fmt, ...) _LOG_FMT_LEVEL(logger, LogLevel::ERROR, fmt, __VA_ARGS__)
 #define _LOG_FMT_FATAL(logger, fmt, ...) _LOG_FMT_LEVEL(logger, LogLevel::FATAL, fmt, __VA_ARGS__)
+
+}

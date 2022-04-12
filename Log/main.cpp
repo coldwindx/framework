@@ -3,6 +3,7 @@
 #include "include\log.h"
 
 using namespace std;
+using namespace logx;
 int main()
 {
 	stringstream os;

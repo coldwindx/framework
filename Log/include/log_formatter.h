@@ -5,16 +5,18 @@
 
 using std::vector;
 
-/* 日志格式器 */
-class LogFormatter {
-public:
-	typedef std::shared_ptr<LogFormatter> sptr;
-	LogFormatter(const string & pattern);
+namespace logx {
+	/* 日志格式器 */
+	class LogFormatter {
+	public:
+		typedef std::shared_ptr<LogFormatter> sptr;
+		LogFormatter(const string & pattern);
 
-	void init();
-	string format(LogEvent::sptr event);
-private:
-	bool _error;
-	string _pattern;
-	vector<Format::sptr> _formats;
-};
+		void init();
+		string format(LogEvent::sptr event);
+	private:
+		bool _error;
+		string _pattern;
+		vector<Format::sptr> _formats;
+	};
+}
