@@ -1,0 +1,31 @@
+logs:
+    - name: root
+      level: info
+      appenders:
+          - type: FileLogAppender
+            file: root.txt
+          - type: StdoutLogAppender
+    - name: system
+      level: info
+      appenders:
+          - type: FileLogAppender
+            file: system.txt
+          - type: StdoutLogAppender
+
+system:
+    port: 9900
+    value: 15
+    int_vec:
+        - 10
+        - 30
+    int_list: [20, 40, 50]
+    int_set: [20, 30, 40, 20]
+    int_uset: [30, 20, 40, 20]
+    int_map:
+         k: 20
+         l: 30
+    class:
+        person:
+            name: "alice"
+            age: 16
+            sex: false

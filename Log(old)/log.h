@@ -42,6 +42,8 @@ using std::shared_ptr;
 #define _LOG_FMT_ERROR(logger, fmt, ...) _LOG_FMT_LEVEL(logger, LogLevel::ERROR, fmt, __VA_ARGS__)
 #define _LOG_FMT_FATAL(logger, fmt, ...) _LOG_FMT_LEVEL(logger, LogLevel::FATAL, fmt, __VA_ARGS__)
 
+#define _LOG_ROOT() LoggerManager::getInstance()->getRoot()
+
 class Logger;
 /* 日志级别 */
 class LogLevel {
@@ -178,6 +180,7 @@ public:
 	Logger::ptr getLogger(const string & name);
 
 	static shared_ptr<LoggerManager> getInstance();
+	Logger::ptr getRoot() const { return _main; }
 private:
 	LoggerManager();
 
