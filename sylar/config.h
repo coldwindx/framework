@@ -11,10 +11,8 @@
 #include <unordered_set>
 #include <functional>
 #include <boost\lexical_cast.hpp>
-#include <log.h>					// 引用Log项目
 #include <yaml-cpp\yaml.h>
-
-#pragma comment(lib, "Log(old).lib")
+#include "log.h"
 
 using std::shared_ptr;
 using std::string;
@@ -26,7 +24,7 @@ using std::unordered_map;
 using std::function;
 using std::exception;
 
-namespace configx {
+namespace sylar {
 	class ConfigVarBase {
 	public:
 		typedef shared_ptr<ConfigVarBase> sptr;
@@ -308,8 +306,8 @@ namespace configx {
 
 		template<typename T>
 		static typename ConfigVar<T>::sptr lookup(const string & name, const T & value, const string & description = "") {
-			auto it = s_data.find(name);
-			if (s_data.end() != it) {
+			auto it = getDatas().find(name);
+			if (getDatas().end() != it) {
 				auto tmp = std::dynamic_pointer_cast<ConfigVar<T> >(it->second);
 				if (tmp) {
 					_LOG_INFO(_LOG_ROOT()) << "Lookup name= " << name << " exists";
@@ -327,14 +325,14 @@ namespace configx {
 				throw std::invalid_argument(name);
 			}
 			typename ConfigVar<T>::sptr v(new ConfigVar<T>(name, value, description));
-			s_data[name] = v;
+			getDatas()[name] = v;
 			return v;
 		}
 /*
 		template<typename T>
 		static typename ConfigVar<T>::sptr lookup(const string & name) {
-			auto it = s_data.find(name);
-			if (s_data.end() == it)
+			auto it = getDatas().find(name);
+			if (getDatas().end() == it)
 				return nullptr;
 			return std::dynamic_pointer_cast<ConfigVar<T>>(it->second);
 		}
@@ -343,7 +341,10 @@ namespace configx {
 
 		static ConfigVarBase::sptr lookupBase(const string & name);
 	private:
-		static ConfigVarMap s_data;
+		static ConfigVarMap& getDatas() {
+			static ConfigVarMap s_datas;
+			return s_datas;
+		}
 	};
 
 	

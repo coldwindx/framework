@@ -1,12 +1,10 @@
 #include <list>
-#include "../include/config.h"
+#include "config.h"
 
 using std::pair;
 using std::list;
 
-namespace configx {
-	Config::ConfigVarMap Config::s_data;
-
+namespace sylar {
 	static void listAllMember(const string & prefix, const YAML::Node & node, list<pair<string, YAML::Node>> & output) {
 		if (prefix.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ._0123456789") != string::npos) {
 			_LOG_ERROR(_LOG_ROOT()) << "Config invaild name: " << prefix << " : " << node;
@@ -41,7 +39,7 @@ namespace configx {
 	}
 	ConfigVarBase::sptr Config::lookupBase(const string & name)
 	{
-		auto it = s_data.find(name);
-		return it == s_data.end() ? nullptr : it->second;
+		auto it = getDatas().find(name);
+		return it == getDatas().end() ? nullptr : it->second;
 	}
 }

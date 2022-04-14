@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{08BE10AA-FABF-421D-B9A7-245EA495F91D}</ProjectGuid>
-    <RootNamespace>Log</RootNamespace>
+    <ProjectGuid>{A4566371-1A22-4E97-9A75-8E61260D8378}</ProjectGuid>
+    <RootNamespace>sylar</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -76,7 +76,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\environment\cplus\yaml_cpp\include;D:\environment\cplus\boost_1_78_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>D:\environment\cplus\yaml_cpp\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -115,27 +119,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\format.h" />
-    <ClInclude Include="include\format_manager.h" />
-    <ClInclude Include="include\log.h" />
-    <ClInclude Include="include\logger.h" />
-    <ClInclude Include="include\log_appender.h" />
-    <ClInclude Include="include\log_formatter.h" />
-    <ClInclude Include="include\log_level.h" />
-    <ClInclude Include="include\log_event.h" />
-    <ClInclude Include="include\log_manager.h" />
-    <ClInclude Include="include\log_util.h" />
-    <ClInclude Include="include\log_writer.h" />
-    <ClInclude Include="include\singleton.h" />
+    <ClInclude Include="config.h" />
+    <ClInclude Include="log.h" />
+    <ClInclude Include="util.h" />
+    <ClInclude Include="xtime.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cpp\logger.cpp" />
-    <ClCompile Include="cpp\log_format.cpp" />
-    <ClCompile Include="log_appender.cpp" />
-    <ClCompile Include="main.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="config.cpp" />
+    <ClCompile Include="log.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
