@@ -15,13 +15,13 @@ namespace logx {
 		LogManager() {
 			Logger::sptr logger = Logger::sptr(new Logger);
 			logger->addAppender(LogAppender::sptr(new StdoutLogAppender));
-			_loggers["main"] = logger;
+			_loggers["root"] = logger;
 		}
 
 		void login(const string & name, Logger::sptr logger) {
 			_loggers[name] = logger;
 		}
-		Logger::sptr get(const string & name = "main") {
+		Logger::sptr get(const string & name = "root") {
 			return _loggers[name];
 		}
 	private:

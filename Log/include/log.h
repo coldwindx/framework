@@ -6,5 +6,5 @@
 #include "log_formatter.h"
 #include "log_appender.h"
 #include "log_writer.h"
-#include "logger.h"
 #include "log_manager.h"
+#include "logger.h"

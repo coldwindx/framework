@@ -8,11 +8,12 @@
 
 using namespace std;
 using namespace configx;
+using namespace logx;
 
 // 自定义配置
 ConfigVar<int>::sptr g_int_value_config = Config::lookup("system.int", 1, "system int");
 ConfigVar<float>::sptr g_float_value_config = Config::lookup("system.int", 0.1f, "system int");
-ConfigVar<vector<int>>::sptr g_int_vec_value_config = Config::lookup("system.int_vec", vector<int>{0,1,2}, "system int vec");
+ConfigVar<vector<int>>::sptr g_int_vec_value_config = Config::lookup("system.int_vec", vector<int>{0, 1, 2}, "system int vec");
 ConfigVar<list<int>>::sptr g_int_list_value_config = Config::lookup("system.int_list", list<int>{0, 1, 2}, "system int list");
 ConfigVar<set<int>>::sptr g_int_set_value_config = Config::lookup("system.int_set", set<int>{0, 1, 2}, "system int set");
 ConfigVar<unordered_set<int>>::sptr g_int_uset_value_config = Config::lookup("system.int_uset", unordered_set<int>{0, 1, 2}, "system int uset");
@@ -25,12 +26,12 @@ void print_yaml(const YAML::Node & node, int level) {
 	if (node.IsScalar()) {
 		_LOG_INFO(_LOG_ROOT()) << string(level * 4, ' ') << node.Scalar() << " - " << node.Type() << " - " << level;
 	}
-	else if(node.IsNull()){
+	else if (node.IsNull()) {
 		_LOG_INFO(_LOG_ROOT()) << string(level * 4, ' ') << "NULL - " << node.Type() << " - " << level;
 	}
 	else if (node.IsMap()) {
 		for (auto it = node.begin(); it != node.end(); ++it) {
-			_LOG_INFO(_LOG_ROOT()) << string(level * 4, ' ') << it->first <<  " - " << it->second.Type() << " - " << level;
+			_LOG_INFO(_LOG_ROOT()) << string(level * 4, ' ') << it->first << " - " << it->second.Type() << " - " << level;
 			print_yaml(it->second, level + 1);
 		}
 	}
@@ -73,7 +74,7 @@ void test_yaml() {
 	XX(g_int_set_value_config, int_set, after);
 	XX(g_int_uset_value_config, int_uset, after);
 	XXM(g_int_map_value_config, int_map, after);
-	
+
 }
 
 class Person {
@@ -93,50 +94,51 @@ public:
 	}
 };
 
-namespace configx {
+
 
 	template<>
-	class LeixiCast<string, Person> {
+	class Convert<string, Person> {
 	public:
 		Person operator()(const string & v) {
 			YAML::Node node = YAML::Load(v);
 			Person p;
 			p._name = node["name"].as<string>();
 			p._age = node["age"].as<int>();
-			p._sex = node["sex"].as<bool> ();
+			p._sex = node["sex"].as<bool>();
 			return p;
 		}
 	};
 
 
 	template<>
-	class LeixiCast<Person, string> {
+	class Convert<Person, string> {
 	public:
 		string operator()(const Person & p) {
 			YAML::Node node;
 			node["name"] = p._name;
 			node["age"] = p._age;
 			node["sex"] = p._sex;
-			
+
 			stringstream ss;
 			ss << node;
 			return ss.str();
 		}
 	};
 
-}
+
 
 ConfigVar<Person>::sptr g_person_value_config = Config::lookup("system.class.person", Person(), "system person");
 
 
 
 void test_class() {
+	Logger::sptr logger = _LOG_ROOT();
 	_LOG_INFO(_LOG_ROOT()) << g_person_value_config->getValue().toString() << " - " << g_person_value_config->toString();
 
 	g_person_value_config->addLister(10, [](const Person & old_value, const Person & new_value) {
 		_LOG_INFO(_LOG_ROOT()) << "old_value=" << old_value.toString()
 			<< " new_value=" << new_value.toString();
-	});
+		});
 	// 从文件获取配置
 	YAML::Node root = YAML::LoadFile("config.yaml");
 	Config::loadFromYaml(root);
@@ -147,8 +149,8 @@ void test_class() {
 
 int main()
 {
-	//test_yaml();
-	test_class();
+	test_yaml();
+	//test_class();
 	system("pause");
 	return 0;
 }

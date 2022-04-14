@@ -5,7 +5,7 @@
 namespace logx {
 	Logger::Logger(const char * name) : _name(name) {
 		this->_level = LogLevel::DEBUG;
-		this->_formatters.reset(new LogFormatter("%d [%p] %f:%l %m %n"));
+		this->_formatters.reset(new LogFormatter("%d [%p] %t %f:%l %m %n"));
 	}
 
 	void Logger::log(LogLevel::Level level, LogEvent::sptr event) {
