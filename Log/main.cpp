@@ -1,5 +1,4 @@
 #include<iostream>
-#include "include\singleton.h"
 #include "include\log.h"
 
 using namespace std;

@@ -6,7 +6,6 @@
 #include "log_util.h"
 #include "logger.h"
 #include "log_manager.h"
-#include "singleton.h"
 
 namespace logx {
 	class LogWriter {
@@ -49,6 +48,6 @@ namespace logx {
 #define _LOG_FMT_ERROR(logger, fmt, ...) _LOG_FMT_LEVEL(logger, LogLevel::ERROR, fmt, __VA_ARGS__)
 #define _LOG_FMT_FATAL(logger, fmt, ...) _LOG_FMT_LEVEL(logger, LogLevel::FATAL, fmt, __VA_ARGS__)
 
-#define _LOG_ROOT() SingletonPtr<LogManager>::instance()->get()
-
+#define _LOG_ROOT() LogManager::instance()->get()
+#define _LOG_NAME(name) LogManager::instance()->get(name)
 }

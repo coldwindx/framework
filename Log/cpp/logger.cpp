@@ -5,7 +5,6 @@
 namespace logx {
 	Logger::Logger(const char * name) : _name(name) {
 		this->_level = LogLevel::DEBUG;
-		this->_formatters.reset(new LogFormatter("%d [%p] %t %f:%l %m %n"));
 	}
 
 	void Logger::log(LogLevel::Level level, LogEvent::sptr event) {
@@ -33,8 +32,6 @@ namespace logx {
 	}
 
 	void Logger::addAppender(LogAppender::sptr appender) {
-		if (!appender->getFormatter())
-			appender->setFormatter(_formatters);
 		_appenders.push_back(appender);
 	}
 
@@ -44,5 +41,12 @@ namespace logx {
 				_appenders.erase(it);
 				break;
 			}
+	}
+
+	void Logger::clear() {
+		_name = nullptr;
+		_level = LogLevel::DEBUG;
+		_pattern = "%d [%p] %t %f:%l %m %n";		// 默认格式解析器
+		_appenders.clear();
 	}
 }

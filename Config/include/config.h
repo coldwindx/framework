@@ -44,8 +44,8 @@ typename ConfigVar<T>::sptr Config::lookup(const string & name, const T & value,
 	}
 
 	if (name.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ._0123456789") != string::npos) {
-		_LOG_ERROR(_LOG_ROOT()) << "Lookup name invaild: " << name;
-		throw std::invalid_argument(name);
+		//_LOG_ERROR(_LOG_ROOT()) << "Lookup name invaild: " << name;
+		throw std::invalid_argument("Lookup name invaild: " + name);
 	}
 	typename ConfigVar<T>::sptr v(new ConfigVar<T>(name, value, description));
 	configVarMap()[name] = v;

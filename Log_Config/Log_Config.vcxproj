@@ -20,13 +20,13 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{08BE10AA-FABF-421D-B9A7-245EA495F91D}</ProjectGuid>
-    <RootNamespace>Log</RootNamespace>
+    <ProjectGuid>{F83F37EC-0D14-4139-887D-33208B915CF3}</ProjectGuid>
+    <RootNamespace>LogConfig</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -76,8 +76,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\workspace\cppspace\framework\Utils\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\environment\cplus\boost_1_78_0;D:\environment\cplus\yaml_cpp\include;E:\workspace\cppspace\framework\Log\include;E:\workspace\cppspace\framework\Config\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>D:\environment\cplus\yaml_cpp\libs;E:\workspace\cppspace\framework\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -116,26 +119,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\format.h" />
-    <ClInclude Include="include\format_manager.h" />
-    <ClInclude Include="include\log.h" />
-    <ClInclude Include="include\logger.h" />
-    <ClInclude Include="include\log_appender.h" />
-    <ClInclude Include="include\log_formatter.h" />
-    <ClInclude Include="include\log_level.h" />
-    <ClInclude Include="include\log_event.h" />
-    <ClInclude Include="include\log_manager.h" />
-    <ClInclude Include="include\log_util.h" />
-    <ClInclude Include="include\log_writer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="cpp\logger.cpp" />
-    <ClCompile Include="cpp\log_format.cpp" />
-    <ClCompile Include="log_appender.cpp" />
     <ClCompile Include="main.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\log_config.h" />
+    <ClInclude Include="include\log_config_convert.h" />
+    <ClInclude Include="include\log_config_define.h" />
+    <ClInclude Include="include\log_config_initer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

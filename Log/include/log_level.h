@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+
+using std::string;
+
 namespace logx {
 	/* 日志级别 */
 	class LogLevel {
@@ -8,13 +12,22 @@ namespace logx {
 
 		static const char* getName(LogLevel::Level level) {
 			switch (level) {
-			case UNKNOW: return "unknow";
 			case DEBUG: return "debug";
 			case INFO: return "info";
 			case WARN: return "warn";
 			case ERROR: return "error";
 			case FATAL: return "fatal";
+			default: return "unknow";
 			}
+		}
+
+		static LogLevel::Level fromString(const string & name) {
+			if ("debug" == name) return DEBUG;
+			if ("info" == name) return INFO;
+			if ("warn" == name) return WARN;
+			if ("error" == name) return ERROR;
+			if ("fatal" == name) return FATAL;
+			return UNKNOW;
 		}
 	};
 }

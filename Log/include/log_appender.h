@@ -15,6 +15,9 @@ namespace logx {
 
 		virtual void log(LogEvent::sptr event) = 0;
 
+		LogLevel::Level getLevel() const { return _level; }
+		void setLevel(LogLevel::Level l) { _level = l; }
+
 		void setFormatter(LogFormatter::sptr val) { _formatter = val; }
 		LogFormatter::sptr getFormatter() const { return _formatter; }
 	protected:

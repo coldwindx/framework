@@ -14,8 +14,9 @@ namespace logx {
 
 		void init();
 		string format(LogEvent::sptr event);
+		bool isError()const { return _error; }
 	private:
-		bool _error;
+		bool _error = false;
 		string _pattern;
 		vector<Format::sptr> _formats;
 	};

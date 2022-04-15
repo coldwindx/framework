@@ -27,11 +27,18 @@ namespace logx {
 
 		LogLevel::Level getLevel() const { return _level; }
 		void setLevel(LogLevel::Level level) { _level = level; }
+
+		const char * getPattern() const { return _pattern; }
+		void setPattern(const char * p) { _pattern = p; }
+
 		const char * getName() const { return _name; }
+		void setName(const char * name) { _name = name; }
+
+		void clear();
 	private:
 		const char * _name = nullptr;
 		LogLevel::Level _level = LogLevel::DEBUG;
 		list<LogAppender::sptr> _appenders;
-		LogFormatter::sptr _formatters;
+		const char * _pattern = "%d [%p] %t %f:%l %m %n";		// 默认格式解析器
 	};
 }

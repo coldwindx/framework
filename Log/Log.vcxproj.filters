@@ -45,9 +45,6 @@
     <ClInclude Include="include\log_manager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\singleton.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\format_manager.h">
       <Filter>头文件</Filter>
     </ClInclude>

@@ -12,19 +12,32 @@ namespace logx {
 	public:
 		typedef shared_ptr<LogManager> sptr;
 
-		LogManager() {
-			Logger::sptr logger = Logger::sptr(new Logger);
-			logger->addAppender(LogAppender::sptr(new StdoutLogAppender));
-			_loggers["root"] = logger;
-		}
-
 		void login(const string & name, Logger::sptr logger) {
 			_loggers[name] = logger;
 		}
 		Logger::sptr get(const string & name = "root") {
-			return _loggers[name];
+			auto it = _loggers.find(name);
+			if (_loggers.end() != it)
+				return it->second;
+			Logger::sptr log(new Logger(name.c_str()));
+			return _loggers[name] = log;
+		}
+
+		void remove(const string & name) {
+			_loggers.erase(name);
+		}
+
+		static LogManager::sptr instance() {
+			static LogManager::sptr p(new LogManager());
+			return p;
 		}
 	private:
+		LogManager() {
+			Logger::sptr logger = Logger::sptr(new Logger);
+			logger->addAppender(LogAppender::sptr(new FileLogAppender("./system.log")));
+			_loggers["root"] = logger;
+		}
+
 		map<string, Logger::sptr> _loggers;
 	};
 

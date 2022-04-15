@@ -3,7 +3,6 @@
 #include <functional>
 #include "../include/log_formatter.h"
 #include "../include/log_manager.h"
-#include "../include/singleton.h"
 #include "../include/format_manager.h"
 
 using std::tuple;
@@ -88,7 +87,7 @@ namespace logx {
 		if (!nstr.empty())
 			vec.push_back(std::make_tuple(nstr, string(), 0));
 
-		FormatManager::sptr manager = SingletonPtr<FormatManager>::instance();
+		FormatManager::sptr manager = FormatManager::instance();
 		for (auto & i : vec) {
 			if (0 == std::get<2>(i)) {
 				_formats.push_back(Format::sptr(new StringFormat(std::get<0>(i))));
@@ -96,8 +95,10 @@ namespace logx {
 			}
 			if (manager->has(std::get<0>(i)))
 				_formats.push_back(manager->get(std::get<0>(i), std::get<1>(i)));
-			else
+			else {
+				_error = true;
 				_formats.push_back(Format::sptr(new StringFormat("<<error format %" + std::get<0>(i) + ">>")));
+			}
 		}
 	}
 

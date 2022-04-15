@@ -1,8 +1,10 @@
 #pragma once
 
+#include <sstream>
 #include "config_define.h"
 #include "convert.h"
 
+using std::stringstream;
 using namespace logx;
 
 __CONFIGX_BEGIN__
