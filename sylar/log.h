@@ -136,6 +136,7 @@ namespace sylar {
 
 	/* »’÷æ¥Ú”°∆˜ */
 	class LogAppender {
+		friend class Logger;
 	public:
 		typedef std::shared_ptr<LogAppender> ptr;
 
@@ -143,13 +144,14 @@ namespace sylar {
 
 		virtual void log(shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) = 0;
 
-		void setFormatter(LogFormatter::ptr val) { _formatter = val; }
+		void setFormatter(LogFormatter::ptr val);
 		LogFormatter::ptr getFormatter() const { return _formatter; }
 		void setLevel(LogLevel::Level level) { _level = level; }
 
 		virtual string toYamlString() = 0;
 	protected:
 		LogLevel::Level _level = LogLevel::DEBUG;
+		bool _hasFormatter = false;
 		LogFormatter::ptr _formatter;
 	};
 

@@ -77,6 +77,10 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\environment\cplus\yaml_cpp\include;D:\environment\cplus\boost_1_78_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <UseFullPaths>false</UseFullPaths>
+      <AdditionalOptions>
+      </AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>D:\environment\cplus\yaml_cpp\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

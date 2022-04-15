@@ -24,6 +24,10 @@ void test_config() {
 	cout << "====================================" << endl;
 	Config::loadFromYaml(root);
 	cout << LoggerManager::getInstance()->toYamlString() << endl;
+
+	Logger::ptr p = _LOG_NAME("system");
+
+	_LOG_INFO(_LOG_NAME("system")) << "hello, system!";
 }
 int main()
 {

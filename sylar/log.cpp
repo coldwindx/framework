@@ -69,7 +69,7 @@ namespace sylar {
 
 	void Logger::addAppender(LogAppender::ptr appender) {
 		if (!appender->getFormatter())
-			appender->setFormatter(_formatter);
+			appender->_formatter = _formatter;
 		_appenders.push_back(appender);
 	}
 
@@ -89,6 +89,11 @@ namespace sylar {
 	void Logger::setFormatter(LogFormatter::ptr val)
 	{
 		_formatter = val;
+		for (auto & p : _appenders) {
+			if (!p->_hasFormatter) {
+				p->_formatter = _formatter;
+			}
+		}
 	}
 
 	void Logger::setFormatter(const string & val)
@@ -99,7 +104,7 @@ namespace sylar {
 				<< " value=" << val << "invaild formatter" << std::endl;
 			return;
 		}
-		_formatter.reset(new LogFormatter(val));
+		this->setFormatter(format);
 	}
 
 	string Logger::toYamlString()
@@ -132,7 +137,7 @@ namespace sylar {
 		YAML::Node node(YAML::NodeType::Map);
 		node["type"] = "StdoutLogAppender";
 		node["level"] = LogLevel::toString(_level);
-		if (_formatter) {
+		if (_hasFormatter && _formatter) {
 			node["formatter"] = _formatter->getPattern();
 		}
 		stringstream ss;
@@ -149,6 +154,7 @@ namespace sylar {
 
 	void FileLogAppender::log(shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) {
 		if (level < this->_level) return;
+		this->reopen();
 		_filestream << _formatter->format(logger, level, event) << std::endl;
 	}
 
@@ -164,7 +170,7 @@ namespace sylar {
 		node["type"] = "FileLogAppender";
 		node["file"] = _filename;
 		node["level"] = LogLevel::toString(_level);
-		if (_formatter) {
+		if (_hasFormatter && _formatter) {
 			node["formatter"] = _formatter->getPattern();
 		}
 		stringstream ss;
@@ -450,7 +456,21 @@ namespace sylar {
 							if (a.type == 2) {
 								ap.reset(new StdoutLogAppender);
 							}
-							ap->setLevel(a.level);
+							if (a.level == LogLevel::UNKNOW)
+								ap->setLevel(i.level);
+							else 
+								ap->setLevel(a.level);
+							if (!a.formatter.empty()) {
+								LogFormatter::ptr fmt(new LogFormatter(a.formatter));
+								if(!fmt->isError())
+									ap->setFormatter(fmt);
+								else {
+									std::cout << "logger name=" << i.name 
+										<< " appender type=" << a.type
+										<< " formatter=" << a.formatter 
+										<< " is invaild" << std::endl;
+								}
+							}
 							logger->addAppender(ap);
 						}
 					}
@@ -507,5 +527,11 @@ namespace sylar {
 		return instance;
 	}
 
+
+	void LogAppender::setFormatter(LogFormatter::ptr val)
+	{
+		_formatter = val; 
+		_hasFormatter = _formatter ? true : false;
+	}
 
 }
